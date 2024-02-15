@@ -19,8 +19,17 @@ public class DateTime {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		LinkedList<String> data = new LinkedList<String>();
+		
+		data.add("202g-05-31T12:3h:45+12:05");
+		data.add("2021-02-15T12:34:56+12:34");
+		
+		validData(data);
+		
+		
+		
+		
+         
 	}
 	
 	
@@ -34,9 +43,10 @@ public class DateTime {
 		
 		LinkedList<String> data = new LinkedList<String>();
 		
-		Scanner fileScanner = new Scanner(new File("testdata"));
+		//change to ask the user for the file name
+		Scanner fileScanner = new Scanner(new File("testdata.txt"));
 		
-		fileScanner.useDelimiter(" ");	
+		fileScanner.useDelimiter("\n");	
 		
 		while(fileScanner.hasNext()) {
 			String dataLine = fileScanner.next();
@@ -59,7 +69,7 @@ public class DateTime {
 	 * @param list
 	 * @return New validated linkedlist
 	 */
-	public LinkedList<String> validData(LinkedList<String> list){
+	public static LinkedList<String> validData(LinkedList<String> list){ 
 		
 		LinkedList<String> newList = new LinkedList<String>();
 		
@@ -67,25 +77,31 @@ public class DateTime {
 		
 		Iterator<String> iterate = list.iterator();
 		
-		String data = "";
-		
+		String data = "";		
 		
 		while(iterate.hasNext()) {
 		
 		//while(index < list.size()) {
 			
 		data = iterate.next();
-		
+		      
+		    //checks if the length of the string is not 20 or 25
+		    if(!(data.length() == 20 || data.length() == 25)) {
+		    	
+		    	iterate.remove();
+		    	
+		    }
+		    
 			//checks the year - if the format is not correct, it will remove the current list entry from the linkedlist
-			if(convertString(data.substring(0, 3)) > 9999 || convertString(data.substring(0, 3)) < 0) {
+		    else if(convertString(data.substring(0, 4)) > 9999 || convertString(data.substring(0, 4)) < 0) {
 				
-		         //list.remove(index);
+		        //list.remove(index);
 				iterate.remove();
 				
 			}
 			
 			//checks for the dash between year and month; If it's not the correct format, it will remove the current list entry from the linkedlist
-			else if(!(data.substring(4).equals(":"))) {
+			else if(!(data.substring(4,5).equals("-"))) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -93,7 +109,7 @@ public class DateTime {
 			}
 			
 			//checks if the correct format is used for the month; if it's not correct, it will remove the current list entry from the linkedlist
-			else if(convertString(data.substring(5, 6)) < 1 || convertString(data.substring(5, 6)) > 12) {
+			else if(convertString(data.substring(5, 7)) < 1 || convertString(data.substring(5, 7)) > 12) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -101,7 +117,7 @@ public class DateTime {
 			}
 		    
 			//checks for the dash between month and day; if it's not the correct format, it will remove the current list entry from the linkedlist
-			else if(!(data.substring(7).equals("-"))) {
+			else if(!(data.substring(7,8).equals("-"))) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -109,7 +125,7 @@ public class DateTime {
 			}
 				
 			//checks of the correct format is used for the day; if it's not correct, it will remove the current list entry from the linkedlist
-			else if(convertString(data.substring(8, 9)) < 1 || convertString(data.substring(8, 9)) > 31) {
+			else if(convertString(data.substring(8, 10)) < 1 || convertString(data.substring(8, 10)) > 31) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -117,7 +133,7 @@ public class DateTime {
 			}
 			
 			//check to make sure the 'T' character is there; if it's not correct, it will remove the current list entry from the linkedlist
-			else if(!(data.substring(10).equals("T"))) {
+			else if(!(data.substring(10,11).equals("T"))) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -125,7 +141,7 @@ public class DateTime {
 			}
 			
 			//checks to make sure the hour component is correct; if it's not correct, it will remove the current list entry from the linkedlist
-			else if(convertString(data.substring(11, 12)) < 1 || convertString(data.substring(11, 12)) > 31) {
+			else if(convertString(data.substring(11, 13)) < 1 || convertString(data.substring(11, 13)) > 31) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -133,7 +149,7 @@ public class DateTime {
 			}
 			
 			//checks to make sure the colon exists - if not, the current list entry will get removed from the linkedlist
-			else if(!(data.substring(13).equals(":"))) {
+			else if(!(data.substring(13,14).equals(":"))) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -141,7 +157,7 @@ public class DateTime {
 			}
 			
 			//checks to make sure the minute component is correct; if not, the current list entry will get removed from the linkedlist
-			else if(convertString(data.substring(14, 15)) < 0 || convertString(data.substring(14, 15)) > 59) {
+			else if(convertString(data.substring(14, 16)) < 0 || convertString(data.substring(14, 16)) > 59) {
 				
 				//list.remove(index);
 				iterate.remove();
@@ -149,45 +165,90 @@ public class DateTime {
 			}
 			
 			//Checks to make sure the colon exists; if not, it will remove the current list entry from the linkedlist
-			else if(!(data.substring(16).equals(":"))) {
+			else if(!(data.substring(16,17).equals(":"))) {
 				
 				//list.remove(index);
 				iterate.remove();
 			}
 			
-			//Checks to make sure the second component is correct; if not, the current list entry will get removed from the linkedlist
-			else if(convertString(data.substring(17, 18)) < 0 || convertString(data.substring(17, 18)) > 59) {
+			//Checks to make sure the seconds component is correct; if not, the current list entry will get removed from the linkedlist
+			else if(convertString(data.substring(17, 19)) < 0 || convertString(data.substring(17, 19)) > 59) {
 				
 				//list.remove(index);
 				iterate.remove();
-				
+							
 			}
 			
-			else if()
-			//index++;
+		    //checks for the correct time zone format which is either a "Z" for GMT or -/+ for a time format; if not, it will be removed from the linkedlist
+			else if(!(data.substring(19,20).equals("Z") || data.substring(19,20).equals("+") || data.substring(19,20).equals("-"))) {
+				
+				iterate.remove();
+				
+			}
+		    
+		    //if the time zone designator is not Z, complete more checks for the hours and minutes format
+			else if(data.substring(19,20).equals("+") || data.substring(19,20).equals("-")) {
+				
+				 //check to see if the hour component format is correct; if not, current list entry will be removed from the linkedlist
+				 if(convertString(data.substring(20,22)) < 0 || convertString(data.substring(20,22)) > 59) {
+					 
+					 iterate.remove();
+					 
+				 }
+				 
+				 //Check to see if the colon exists - if not, the current list entry will be removed from the linkedlist
+				 else if(!(data.substring(22,23).equals(":"))) {
+					 
+					 iterate.remove();
+					 
+				 }
+				  
+				 //
+				 else if(convertString(data.substring(23)) < 0 || convertString(data.substring(23)) > 59) {
+					 
+					 iterate.remove();
+					 
+				 }
+			}
+			
 		}
 		
 		
 		
-		return newList;
+		return list;
 		
 		
 	}
 	
 	
 	/**
-	 * Method converts string into an integer
+	 * Method converts a string into an integer - has a try-catch statement to gracefully handle exceptions
 	 * @param array
-	 * @return returns an integer
+	 * @return returns an integer or -1 if there is an exception
 	 */
-	public int convertString(String array) {
+	public static int convertString(String array) { 
 		
-		int number = 0;
+		try {
+			int number = 0;
+			
+			number = Integer.valueOf(array);		
+			
+			
+			return number;
+			
+			
+		} catch(NumberFormatException exception) {
+			
+			return -1;
+			
+		}
 		
-		number = Integer.valueOf(array);		
+		//int number = 0;
+		
+		//number = Integer.valueOf(array);		
 		
 		
-		return number;
+		//return number;
 			
 	}
 	
