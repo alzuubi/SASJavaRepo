@@ -5,10 +5,11 @@
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
+import java.util.NoSuchElementException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 /**
  * 
@@ -19,44 +20,112 @@ public class DateTime {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		LinkedList<String> data = new LinkedList<String>();
 		
-		data.add("202g-05-31T12:3h:45+12:05");
-		data.add("2021-02-15T12:34:56+12:34");
+		LinkedHashSet<String> textData = new LinkedHashSet<String>();
 		
-		validData(data);
+		Scanner fileName = new Scanner(System.in);
 		
 		
 		
+		//gets the file name from the user and uses a try/catch statement to gracefully handle an error
+		try {
+			
+			System.out.println("Please enter a file name to open:");
+			
+			String name = fileName.nextLine();
+			
+			
+			//inputfile method is called to input the data into a linked hash set
+			textData = inputFile(name);
+			
+			
+			
+		} catch(FileNotFoundException exception) {
+			
+			System.out.println("The file does not exist");
 		
-         
+		} catch(Exception exception) {
+			
+			System.out.println("An error occurred");
+			
+		}
+		
+		//calls the validData function with the Linked Hash Set data
+		validData(textData);
+     
+		if(textData.isEmpty()) {
+			
+			System.out.println("Input file has no correct values");
+			
+		} else {
+			
+		
+		
+		
+		//try/catch statement to get the file name for the output file and to call the writeToFile method
+		try {
+			
+			System.out.println("Please enter a file name:");
+			
+			String outputFileName = fileName.nextLine();	
+			
+			//calls the writeToFile method with the validated linked hash list and the name of the chosen file
+			writeToFile(textData, outputFileName);
+			
+			//fileNameScanner.close();
+			
+		} catch(IOException exception) {
+			
+			System.out.println("Program could not write to file");
+		
+		} catch(NoSuchElementException exception) {
+			
+			System.out.println("Program failed due to a file name error");
+			
+		} catch(Exception exception) {
+			
+			System.out.println("An error occurred");
+			
+		}
+		
+		//closes the scanner to prevent a memory leak
+		fileName.close();
+		
+		}
+//		LinkedList<String> data = new LinkedList<String>();
+//		
+//		data.add("202g-05-31T12:3h:45+12:05");
+//		data.add("2021-02-15T12:34:56+12:34");
+		        
 	}
 	
 	
 	/**
-	 * Method to input the file contents and insert them into a LinkedList
-	 * Also uses the scanner class to read the contents
-	 * @return the data linkedlist
+	 * Method to input the file contents and insert them into a hash set. The linked hash set will remove any duplicate entries
+	 * and will maintain the order 
+	 * Also uses the scanner class to read the contents from the file
+	 * @param fileName - the name of the file that is being used
+	 * @return the data in a LinkedHashSet
 	 * @throws FileNotFoundException
 	 */
-	public LinkedList<String> inputFile() throws FileNotFoundException{
+	public static LinkedHashSet<String> inputFile(String fileName) throws FileNotFoundException{
 		
-		LinkedList<String> data = new LinkedList<String>();
+		LinkedHashSet<String> data = new LinkedHashSet<String>();
 		
 		//change to ask the user for the file name
-		Scanner fileScanner = new Scanner(new File("testdata.txt"));
+		Scanner fileScanner = new Scanner(new File(fileName));
 		
-		fileScanner.useDelimiter("\n");	
+		fileScanner.useDelimiter("\r\n");	
 		
 		while(fileScanner.hasNext()) {
 			String dataLine = fileScanner.next();
 			   
-			data.add(dataLine);
-			
-			/* closes the scanner to prevent memory leaks */
-			fileScanner.close();
+			data.add(dataLine);			
 			
 		}
+		
+		/* closes the scanner to prevent memory leaks */
+		fileScanner.close();
 		
 		return data;
 		
@@ -65,15 +134,11 @@ public class DateTime {
 	
 	
 	/**
-	 * Method takes in a linkedlist and validates it according to the ISO 8601 format
+	 * Method takes in a linked hash set and validates it according to the ISO 8601 format
 	 * @param list
-	 * @return New validated linkedlist
+	 * @return validated linked hash set
 	 */
-	public static LinkedList<String> validData(LinkedList<String> list){ 
-		
-		LinkedList<String> newList = new LinkedList<String>();
-		
-		int index = 0;
+	public static LinkedHashSet<String> validData(LinkedHashSet<String> list){ 
 		
 		Iterator<String> iterate = list.iterator();
 		
@@ -92,7 +157,7 @@ public class DateTime {
 		    	
 		    }
 		    
-			//checks the year - if the format is not correct, it will remove the current list entry from the linkedlist
+			//checks the year - if the format is not correct, it will remove the current list entry from the linked hash set
 		    else if(convertString(data.substring(0, 4)) > 9999 || convertString(data.substring(0, 4)) < 0) {
 				
 		        //list.remove(index);
@@ -100,7 +165,7 @@ public class DateTime {
 				
 			}
 			
-			//checks for the dash between year and month; If it's not the correct format, it will remove the current list entry from the linkedlist
+			//checks for the dash between year and month; If it's not the correct format, it will remove the current list entry from the linked hash set
 			else if(!(data.substring(4,5).equals("-"))) {
 				
 				//list.remove(index);
@@ -108,7 +173,7 @@ public class DateTime {
 				
 			}
 			
-			//checks if the correct format is used for the month; if it's not correct, it will remove the current list entry from the linkedlist
+			//checks if the correct format is used for the month; if it's not correct, it will remove the current list entry from the linked hash set
 			else if(convertString(data.substring(5, 7)) < 1 || convertString(data.substring(5, 7)) > 12) {
 				
 				//list.remove(index);
@@ -116,7 +181,7 @@ public class DateTime {
 				
 			}
 		    
-			//checks for the dash between month and day; if it's not the correct format, it will remove the current list entry from the linkedlist
+			//checks for the dash between month and day; if it's not the correct format, it will remove the current list entry from the linked hash set
 			else if(!(data.substring(7,8).equals("-"))) {
 				
 				//list.remove(index);
@@ -124,7 +189,7 @@ public class DateTime {
 				
 			}
 				
-			//checks of the correct format is used for the day; if it's not correct, it will remove the current list entry from the linkedlist
+			//checks of the correct format is used for the day; if it's not correct, it will remove the current list entry from the linked hash set
 			else if(convertString(data.substring(8, 10)) < 1 || convertString(data.substring(8, 10)) > 31) {
 				
 				//list.remove(index);
@@ -132,7 +197,7 @@ public class DateTime {
 				
 			}
 			
-			//check to make sure the 'T' character is there; if it's not correct, it will remove the current list entry from the linkedlist
+			//check to make sure the 'T' character is there; if it's not correct, it will remove the current list entry from the linked hash set
 			else if(!(data.substring(10,11).equals("T"))) {
 				
 				//list.remove(index);
@@ -140,7 +205,7 @@ public class DateTime {
 				
 			}
 			
-			//checks to make sure the hour component is correct; if it's not correct, it will remove the current list entry from the linkedlist
+			//checks to make sure the hour component is correct; if it's not correct, it will remove the current list entry from the linked hash set
 			else if(convertString(data.substring(11, 13)) < 1 || convertString(data.substring(11, 13)) > 31) {
 				
 				//list.remove(index);
@@ -148,7 +213,7 @@ public class DateTime {
 				
 			}
 			
-			//checks to make sure the colon exists - if not, the current list entry will get removed from the linkedlist
+			//checks to make sure the colon exists - if not, the current list entry will get removed from the linked hash set
 			else if(!(data.substring(13,14).equals(":"))) {
 				
 				//list.remove(index);
@@ -156,7 +221,7 @@ public class DateTime {
 				
 			}
 			
-			//checks to make sure the minute component is correct; if not, the current list entry will get removed from the linkedlist
+			//checks to make sure the minute component is correct; if not, the current list entry will get removed from the linked hash set
 			else if(convertString(data.substring(14, 16)) < 0 || convertString(data.substring(14, 16)) > 59) {
 				
 				//list.remove(index);
@@ -164,14 +229,14 @@ public class DateTime {
 				
 			}
 			
-			//Checks to make sure the colon exists; if not, it will remove the current list entry from the linkedlist
+			//Checks to make sure the colon exists; if not, it will remove the current list entry from the linked hash list
 			else if(!(data.substring(16,17).equals(":"))) {
 				
 				//list.remove(index);
 				iterate.remove();
 			}
 			
-			//Checks to make sure the seconds component is correct; if not, the current list entry will get removed from the linkedlist
+			//Checks to make sure the seconds component is correct; if not, the current list entry will get removed from the linked hash set
 			else if(convertString(data.substring(17, 19)) < 0 || convertString(data.substring(17, 19)) > 59) {
 				
 				//list.remove(index);
@@ -179,7 +244,7 @@ public class DateTime {
 							
 			}
 			
-		    //checks for the correct time zone format which is either a "Z" for GMT or -/+ for a time format; if not, it will be removed from the linkedlist
+		    //checks for the correct time zone format which is either a "Z" for GMT or -/+ for a time format; if not, it will be removed from the linked hash set
 			else if(!(data.substring(19,20).equals("Z") || data.substring(19,20).equals("+") || data.substring(19,20).equals("-"))) {
 				
 				iterate.remove();
@@ -189,21 +254,21 @@ public class DateTime {
 		    //if the time zone designator is not Z, complete more checks for the hours and minutes format
 			else if(data.substring(19,20).equals("+") || data.substring(19,20).equals("-")) {
 				
-				 //check to see if the hour component format is correct; if not, current list entry will be removed from the linkedlist
+				 //check to see if the hour component format is correct; if not, current list entry will be removed from the linked hash set
 				 if(convertString(data.substring(20,22)) < 0 || convertString(data.substring(20,22)) > 59) {
 					 
 					 iterate.remove();
 					 
 				 }
 				 
-				 //Check to see if the colon exists - if not, the current list entry will be removed from the linkedlist
+				 //Check to see if the colon exists - if not, the current list entry will be removed from the linked hashed set
 				 else if(!(data.substring(22,23).equals(":"))) {
 					 
 					 iterate.remove();
 					 
 				 }
 				  
-				 //
+				 //check to see if the minute component format is correct; if not, current list entry will be removed from the linked hash set
 				 else if(convertString(data.substring(23)) < 0 || convertString(data.substring(23)) > 59) {
 					 
 					 iterate.remove();
@@ -215,10 +280,42 @@ public class DateTime {
 		
 		
 		
-		return list;
-		
+		return list;		
 		
 	}
+	
+	
+	/**
+	 * Method takes in a linked hash set and writes the data to a file using a file name the user wants
+	 * @param list - the linked hash set
+	 * @param name - name of the file
+	 */
+	public static void writeToFile(LinkedHashSet<String> list, String name) throws Exception {
+		
+		//get file name from user
+//		Scanner fileName = new Scanner(System.in);
+//		
+//		System.out.println("Please enter a file name:");
+//		
+//		String name = fileName.nextLine();
+		
+		//iterator to iterate over linked hash set
+		Iterator<String> iterate = list.iterator();
+		
+		FileWriter outputFile = new FileWriter(name);
+		
+		while(iterate.hasNext()) {
+			
+			outputFile.write(iterate.next() + "\r\n");
+			
+		}
+		
+		outputFile.close();
+	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -241,14 +338,8 @@ public class DateTime {
 			
 			return -1;
 			
-		}
+		} 
 		
-		//int number = 0;
-		
-		//number = Integer.valueOf(array);		
-		
-		
-		//return number;
 			
 	}
 	
