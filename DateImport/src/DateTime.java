@@ -31,7 +31,7 @@ public class DateTime {
 		// handle an error
 		try {
 
-			System.out.println("Please enter a file name to input:");
+			System.out.println("Which file would you like to input?");
 
 			String name = fileName.nextLine();
 
@@ -48,7 +48,7 @@ public class DateTime {
 
 		}
 
-		// calls the validData function with the Linked Hash Set data
+		// calls the validData method with the Linked Hash Set data
 		validData(textData);
 
 		// checks if the original file has any correct values after validation or is
@@ -63,7 +63,7 @@ public class DateTime {
 			// writeToFile method
 			try {
 
-				System.out.println("Please enter a file name:");
+				System.out.println("Please enter a name for output file:");
 
 				String outputFileName = fileName.nextLine();
 
@@ -71,7 +71,6 @@ public class DateTime {
 				// of the chosen file
 				writeToFile(textData, outputFileName);
 
-				// fileNameScanner.close();
 
 			} catch (IOException exception) {
 
@@ -130,7 +129,7 @@ public class DateTime {
 	 * Method takes in a linked hash set and validates it according to the ISO 8601
 	 * format
 	 * 
-	 * @param list
+	 * @param list - a linked hash list
 	 * @return validated linked hash set
 	 */
 	public static LinkedHashSet<String> validData(LinkedHashSet<String> list) {
@@ -140,8 +139,6 @@ public class DateTime {
 		String data = "";
 
 		while (iterate.hasNext()) {
-
-			// while(index < list.size()) {
 
 			data = iterate.next();
 
@@ -153,7 +150,7 @@ public class DateTime {
 			}
 
 			// checks the year - if the format is not correct, it will remove the current
-			// list entry from the linked hash set
+			// set entry from the linked hash set
 			else if (convertString(data.substring(0, 4)) > 9999 || convertString(data.substring(0, 4)) < 0) {
 
 				// list.remove(index);
@@ -162,7 +159,7 @@ public class DateTime {
 			}
 
 			// checks for the dash between year and month; If it's not the correct format,
-			// it will remove the current list entry from the linked hash set
+			// it will remove the current set entry from the linked hash set
 			else if (!(data.substring(4, 5).equals("-"))) {
 
 				// list.remove(index);
@@ -171,7 +168,7 @@ public class DateTime {
 			}
 
 			// checks if the correct format is used for the month; if it's not correct, it
-			// will remove the current list entry from the linked hash set
+			// will remove the current set entry from the linked hash set
 			else if (convertString(data.substring(5, 7)) < 1 || convertString(data.substring(5, 7)) > 12) {
 
 				// list.remove(index);
@@ -180,7 +177,7 @@ public class DateTime {
 			}
 
 			// checks for the dash between month and day; if it's not the correct format, it
-			// will remove the current list entry from the linked hash set
+			// will remove the current set entry from the linked hash set
 			else if (!(data.substring(7, 8).equals("-"))) {
 
 				// list.remove(index);
@@ -189,7 +186,7 @@ public class DateTime {
 			}
 
 			// checks of the correct format is used for the day; if it's not correct, it
-			// will remove the current list entry from the linked hash set
+			// will remove the current set entry from the linked hash set
 			else if (convertString(data.substring(8, 10)) < 1 || convertString(data.substring(8, 10)) > 31) {
 
 				// list.remove(index);
@@ -198,7 +195,7 @@ public class DateTime {
 			}
 
 			// check to make sure the 'T' character is there; if it's not correct, it will
-			// remove the current list entry from the linked hash set
+			// remove the current set entry from the linked hash set
 			else if (!(data.substring(10, 11).equals("T"))) {
 
 				// list.remove(index);
@@ -207,7 +204,7 @@ public class DateTime {
 			}
 
 			// checks to make sure the hour component is correct; if it's not correct, it
-			// will remove the current list entry from the linked hash set
+			// will remove the current set entry from the linked hash set
 			else if (convertString(data.substring(11, 13)) < 1 || convertString(data.substring(11, 13)) > 31) {
 
 				// list.remove(index);
@@ -215,7 +212,7 @@ public class DateTime {
 
 			}
 
-			// checks to make sure the colon exists - if not, the current list entry will
+			// checks to make sure the colon exists - if not, the current set entry will
 			// get removed from the linked hash set
 			else if (!(data.substring(13, 14).equals(":"))) {
 
@@ -224,7 +221,7 @@ public class DateTime {
 
 			}
 
-			// checks to make sure the minute component is correct; if not, the current list
+			// checks to make sure the minute component is correct; if not, the current set
 			// entry will get removed from the linked hash set
 			else if (convertString(data.substring(14, 16)) < 0 || convertString(data.substring(14, 16)) > 59) {
 
@@ -233,7 +230,7 @@ public class DateTime {
 
 			}
 
-			// Checks to make sure the colon exists; if not, it will remove the current list
+			// Checks to make sure the colon exists; if not, it will remove the current set
 			// entry from the linked hash list
 			else if (!(data.substring(16, 17).equals(":"))) {
 
@@ -242,7 +239,7 @@ public class DateTime {
 			}
 
 			// Checks to make sure the seconds component is correct; if not, the current
-			// list entry will get removed from the linked hash set
+			// set entry will get removed from the linked hash set
 			else if (convertString(data.substring(17, 19)) < 0 || convertString(data.substring(17, 19)) > 59) {
 
 				// list.remove(index);
@@ -255,7 +252,7 @@ public class DateTime {
 			else if (!(data.substring(19, 20).equals("Z") || data.substring(19, 20).equals("+")
 					|| data.substring(19, 20).equals("-"))) {
 
-				iterate.remove();
+				       iterate.remove();
 
 			}
 
@@ -263,7 +260,7 @@ public class DateTime {
 			// minutes format
 			else if (data.substring(19, 20).equals("+") || data.substring(19, 20).equals("-")) {
 
-				// check to see if the hour component format is correct; if not, current list
+				// check to see if the hour component format is correct; if not, current set
 				// entry will be removed from the linked hash set
 				if (convertString(data.substring(20, 22)) < 0 || convertString(data.substring(20, 22)) > 59) {
 
@@ -271,7 +268,7 @@ public class DateTime {
 
 				}
 
-				// Check to see if the colon exists - if not, the current list entry will be
+				// Check to see if the colon exists - if not, the current set entry will be
 				// removed from the linked hashed set
 				else if (!(data.substring(22, 23).equals(":"))) {
 
@@ -279,7 +276,7 @@ public class DateTime {
 
 				}
 
-				// check to see if the minute component format is correct; if not, current list
+				// check to see if the minute component format is correct; if not, current set
 				// entry will be removed from the linked hash set
 				else if (convertString(data.substring(23)) < 0 || convertString(data.substring(23)) > 59) {
 
