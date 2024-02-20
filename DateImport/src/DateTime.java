@@ -14,11 +14,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * 
+ * DataTime class
  */
 public class DateTime {
 
 	/**
+	 * main method to run the program
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -95,7 +96,7 @@ public class DateTime {
 
 	/**
 	 * Method to input the file contents and insert them into a hash set. The linked
-	 * hash set will remove any duplicate entries and will maintain the order Also
+	 * hash set will remove any duplicate entries and will maintain the order. Also
 	 * uses the scanner class to read the contents from the file
 	 * 
 	 * @param fileName - the name of the file that is being used
