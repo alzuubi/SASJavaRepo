@@ -153,7 +153,7 @@ public class DateTime {
 			// set entry from the linked hash set
 			else if (convertString(data.substring(0, 4)) > 9999 || convertString(data.substring(0, 4)) < 0) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -162,7 +162,7 @@ public class DateTime {
 			// it will remove the current set entry from the linked hash set
 			else if (!(data.substring(4, 5).equals("-"))) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -171,7 +171,7 @@ public class DateTime {
 			// will remove the current set entry from the linked hash set
 			else if (convertString(data.substring(5, 7)) < 1 || convertString(data.substring(5, 7)) > 12) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -180,7 +180,7 @@ public class DateTime {
 			// will remove the current set entry from the linked hash set
 			else if (!(data.substring(7, 8).equals("-"))) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -189,7 +189,7 @@ public class DateTime {
 			// will remove the current set entry from the linked hash set
 			else if (convertString(data.substring(8, 10)) < 1 || convertString(data.substring(8, 10)) > 31) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -198,7 +198,7 @@ public class DateTime {
 			// remove the current set entry from the linked hash set
 			else if (!(data.substring(10, 11).equals("T"))) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -207,7 +207,7 @@ public class DateTime {
 			// will remove the current set entry from the linked hash set
 			else if (convertString(data.substring(11, 13)) < 1 || convertString(data.substring(11, 13)) > 31) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -216,7 +216,7 @@ public class DateTime {
 			// get removed from the linked hash set
 			else if (!(data.substring(13, 14).equals(":"))) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -225,7 +225,7 @@ public class DateTime {
 			// entry will get removed from the linked hash set
 			else if (convertString(data.substring(14, 16)) < 0 || convertString(data.substring(14, 16)) > 59) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
@@ -234,7 +234,7 @@ public class DateTime {
 			// entry from the linked hash list
 			else if (!(data.substring(16, 17).equals(":"))) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 			}
 
@@ -242,7 +242,7 @@ public class DateTime {
 			// set entry will get removed from the linked hash set
 			else if (convertString(data.substring(17, 19)) < 0 || convertString(data.substring(17, 19)) > 59) {
 
-				// list.remove(index);
+				
 				iterate.remove();
 
 			}
