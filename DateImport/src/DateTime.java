@@ -32,7 +32,7 @@ public class DateTime {
 		// handle an error
 		try {
 
-			System.out.println("Which file would you like to input?");
+			System.out.println("Which text file would you like to input?");
 
 			String name = fileName.nextLine();
 
